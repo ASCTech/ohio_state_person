@@ -3,13 +3,13 @@ $:.push File.expand_path("../lib", __FILE__)
 require "OhioStatePerson/version"
 
 Gem::Specification.new do |s|
-  s.name        = "OhioStatePerson"
-  s.version     = Ohiostateperson::VERSION
+  s.name        = "ohio_state_person"
+  s.version     = OhioStatePerson::VERSION
   s.authors     = ["mikegee"]
   s.email       = ["gee.24@osu.edu"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.homepage    = "https://github.com/ASCTech/OhioStatePerson"
+  s.summary     = %q{ActiveRecord mixin for people at Ohio State University}
+  s.description = %q{requires fields: name_n, emplid; sets id to emplid.to_i; provides a search method; etc.}
 
   s.rubyforge_project = "OhioStatePerson"
 
@@ -21,4 +21,5 @@ Gem::Specification.new do |s|
   # specify any dependencies here; for example:
   # s.add_development_dependency "rspec"
   # s.add_runtime_dependency "rest-client"
+  s.add_runtime_dependency "activerecord", '~> 3.0'
 end
