@@ -1,17 +1,17 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "OhioStatePerson/version"
+require "ohio_state_person/version"
 
 Gem::Specification.new do |s|
   s.name        = "ohio_state_person"
   s.version     = OhioStatePerson::VERSION
   s.authors     = ["mikegee"]
   s.email       = ["gee.24@osu.edu"]
-  s.homepage    = "https://github.com/ASCTech/OhioStatePerson"
+  s.homepage    = "https://github.com/ASCTech/ohio_state_person"
   s.summary     = %q{ActiveRecord mixin for people at Ohio State University}
   s.description = %q{requires fields: name_n, emplid; sets id to emplid.to_i; provides a search method; etc.}
 
-  s.rubyforge_project = "OhioStatePerson"
+  s.rubyforge_project = "ohio_state_person"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

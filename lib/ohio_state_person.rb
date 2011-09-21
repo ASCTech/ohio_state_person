@@ -1,4 +1,4 @@
-require "OhioStatePerson/version"
+require "ohio_state_person/version"
 
 module OhioStatePerson
 
