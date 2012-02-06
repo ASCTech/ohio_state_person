@@ -20,19 +20,17 @@ module OhioStatePerson
 
   module ClassMethods
     def search(q)
-      q.strip! if q
+      q = q.to_s.strip
       h = ActiveSupport::OrderedHash.new
-      h[/\A\d+\z/] = where(:emplid => q)
-      h[/\A\D+\.\d+\z/] = where(:name_n => q)
-      h[/(\S+),\s*(\S+)/] = where('last_name LIKE ? AND first_name LIKE ?', $1, "#{$2}%")
-      h[/(\S+)\s+(\S+)/] = where('first_name LIKE ? AND last_name LIKE ?', $1, "#{$2}%")
-      h[/\S/] = where('last_name LIKE ?', "#{q}%")
-      h[nil] = where('1=2')
+      h[/\A\d+\z/]        = lambda { where(:emplid => q) }
+      h[/\A\D+\.\d+\z/]   = lambda { where(:name_n => q) }
+      h[/(\S+),\s*(\S+)/] = lambda { where('last_name LIKE ? AND first_name LIKE ?', $1, "#{$2}%") }
+      h[/(\S+)\s+(\S+)/]  = lambda { where('first_name LIKE ? AND last_name LIKE ?', $1, "#{$2}%") }
+      h[/\S/]             = lambda { where('last_name LIKE ?', "#{q}%") }
+      h[//]               = lambda { where('1=2') }
 
       h.each do |regex, where_clause|
-        if regex.nil? or q =~ regex
-          return where_clause
-        end
+        return where_clause.call if q =~ regex
       end
 
     end
