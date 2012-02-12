@@ -32,5 +32,13 @@ describe 'validations' do
     subject { student }
 
     specify { subject.id.should == subject.emplid.to_i }
+
+    context 'with a different emplid' do
+      before { subject.emplid = subject.id + 1 }
+      specify do
+        subject.should_not be_valid
+        subject.errors[:id].should == ['must be the same as the emplid']
+      end
+    end
   end
 end
