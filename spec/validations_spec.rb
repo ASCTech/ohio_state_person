@@ -27,4 +27,10 @@ describe 'validations' do
     it { should validate_format_of(:emplid).with('987654321').
            with_message(/must be 8 or 9 digits/) }
   end
+
+  describe 'the id field' do
+    subject { student }
+
+    specify { subject.id.should == subject.emplid.to_i }
+  end
 end
