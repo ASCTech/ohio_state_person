@@ -16,6 +16,12 @@ FactoryGirl.define do
   factory :applicant do
     first_name 'Brutus'
     last_name  'Buckeye'
+    email      'brutus_buckeye@gmail.com'
     emplid
+  end
+
+  factory :luddite do
+    first_name 'Some'
+    last_name  'Guy'
   end
 end

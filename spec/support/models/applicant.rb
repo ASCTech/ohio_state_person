@@ -1,5 +1,6 @@
 ActiveRecord::Base.connection.create_table :applicants, :force => true do |table|
   table.column :emplid, :string
+  table.column :email, :string
   table.column :first_name, :string
   table.column :last_name, :string
 end
