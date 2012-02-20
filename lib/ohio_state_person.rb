@@ -21,11 +21,16 @@ module OhioStatePerson
   end
 
   module ClassMethods
-    def search(q)
+    def search(q, options={})
       q = q.to_s
       h = ActiveSupport::OrderedHash.new
-      h[/\A\s*\d+\s*\z/]      = lambda { where('emplid LIKE ?', "#{q.strip}%").order('emplid ASC') }
-      h[/\A\s*\D+\.\d*\s*\z/] = lambda { where('name_n LIKE ?', "#{q.strip}%") } if column_names.include? 'name_n'
+      if options[:fuzzy]
+        h[/\A\s*\d+\s*\z/]      = lambda { where('emplid LIKE ?', "#{q.strip}%") }
+        h[/\A\s*\D+\.\d*\s*\z/] = lambda { where('name_n LIKE ?', "#{q.strip}%") } if column_names.include? 'name_n'
+      else
+        h[/\A\s*\d+\s*\z/]      = lambda { where(:emplid => q.strip) }
+        h[/\A\s*\D+\.\d*\s*\z/] = lambda { where(:name_n => q.strip) } if column_names.include? 'name_n'
+      end
       h[/(\S+),\s*(\S*)/]     = lambda { where('last_name LIKE ? AND first_name LIKE ?', $1, "#{$2}%") }
       h[/(\S+)\s+(\S*)/]      = lambda { where('first_name LIKE ? AND last_name LIKE ?', $1, "#{$2}%") }
       h[/\S/]                 = lambda { where('last_name LIKE ?', "#{q}%") }

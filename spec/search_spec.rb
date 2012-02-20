@@ -26,6 +26,16 @@ describe 'the search method' do
     Student.search('buckeye.1').should == []
   end
 
+  it "should return fuzzy matches on emplid" do
+    Student.search(18181818, :fuzzy => true).should == [@student]
+    Student.search(1818,     :fuzzy => true).should == [@student]
+  end
+
+  it "should return fuzzy matches on name_n" do
+    Student.search('buckeye.11', :fuzzy => true).should == [@student]
+    Student.search('buckeye.1',  :fuzzy => true).should == [@student]
+  end
+
   it "should not give results on first name only" do
     Student.search('Brutus').should == []
     Student.search('Brut').should == []
