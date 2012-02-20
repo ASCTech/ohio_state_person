@@ -24,12 +24,12 @@ module OhioStatePerson
     def search(q)
       q = q.to_s
       h = ActiveSupport::OrderedHash.new
-      h[/\A\d+\z/]        = lambda { where('emplid LIKE ?', "#{q}%").order('emplid ASC') }
-      h[/\A\D+\.\d*\z/]   = lambda { where('name_n LIKE ?', "#{q}%") } if column_names.include? 'name_n'
-      h[/(\S+),\s*(\S*)/] = lambda { where('last_name LIKE ? AND first_name LIKE ?', $1, "#{$2}%") }
-      h[/(\S+)\s+(\S*)/]  = lambda { where('first_name LIKE ? AND last_name LIKE ?', $1, "#{$2}%") }
-      h[/\S/]             = lambda { where('last_name LIKE ?', "#{q}%") }
-      h[//]               = lambda { where('1=2') }
+      h[/\A\s*\d+\s*\z/]      = lambda { where('emplid LIKE ?', "#{q.strip}%").order('emplid ASC') }
+      h[/\A\s*\D+\.\d*\s*\z/] = lambda { where('name_n LIKE ?', "#{q.strip}%") } if column_names.include? 'name_n'
+      h[/(\S+),\s*(\S*)/]     = lambda { where('last_name LIKE ? AND first_name LIKE ?', $1, "#{$2}%") }
+      h[/(\S+)\s+(\S*)/]      = lambda { where('first_name LIKE ? AND last_name LIKE ?', $1, "#{$2}%") }
+      h[/\S/]                 = lambda { where('last_name LIKE ?', "#{q}%") }
+      h[//]                   = lambda { where('1=2') }
 
       h.each do |regex, where_clause|
         return where_clause.call if q =~ regex
