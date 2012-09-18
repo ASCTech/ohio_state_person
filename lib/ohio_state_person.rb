@@ -50,6 +50,12 @@ module OhioStatePerson
       name_n.present? ? "#{name_n}@osu.edu" : ''
     end
 
+    def opic_url(params={})
+      url = "https://opic-s.asc.ohio-state.edu/#{name_n}/"
+      url += "?#{params.to_query}" if params.present?
+      url
+    end
+
     protected
     def set_id
       self.id = self.emplid.to_i
@@ -60,6 +66,7 @@ module OhioStatePerson
         errors.add(:id, 'must be the same as the emplid')
       end
     end
+
   end
 
 end
