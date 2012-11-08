@@ -51,7 +51,7 @@ module OhioStatePerson
     end
 
     def opic_url(params={})
-      url = "https://opic.asc.ohio-state.edu/#{name_n}/"
+      url = "https://opic.osu.edu/#{name_n}/"
       url += "?#{params.to_query}" if params.present?
       url
     end
