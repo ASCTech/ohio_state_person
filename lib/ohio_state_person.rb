@@ -51,7 +51,8 @@ module OhioStatePerson
     end
 
     def opic_url(params={})
-      url = "https://opic.osu.edu/#{name_n}/"
+      host = Rails.env.production? ? 'opic.osu.edu' : 'opic-s.asc.ohio-state.edu'
+      url = "https://#{host}/#{name_n}/"
       url += "?#{params.to_query}" if params.present?
       url
     end
