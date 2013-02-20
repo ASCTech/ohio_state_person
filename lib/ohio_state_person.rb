@@ -26,15 +26,15 @@ module OhioStatePerson
       q = q.to_s
       h = ActiveSupport::OrderedHash.new
       if options[:fuzzy]
-        h[/\A\s*\d+\s*\z/]      = lambda { where('emplid LIKE ?', "#{q.strip}%") }
-        h[/\A\s*\D+\.\d*\s*\z/] = lambda { where('name_n LIKE ?', "#{q.strip}%") } if column_names.include? 'name_n'
+        h[/\A\s*\d+\s*\z/]      = lambda { where("#{table_name}.emplid LIKE ?", "#{q.strip}%") }
+        h[/\A\s*\D+\.\d*\s*\z/] = lambda { where("#{table_name}.name_n LIKE ?", "#{q.strip}%") } if column_names.include? 'name_n'
       else
         h[/\A\s*\d+\s*\z/]      = lambda { where(:emplid => q.strip) }
         h[/\A\s*\D+\.\d*\s*\z/] = lambda { where(:name_n => q.strip) } if column_names.include? 'name_n'
       end
-      h[/(\S+),\s*(\S*)/]     = lambda { where('last_name LIKE ? AND first_name LIKE ?', $1, "#{$2}%") }
-      h[/(\S+)\s+(\S*)/]      = lambda { where('first_name LIKE ? AND last_name LIKE ?', $1, "#{$2}%") }
-      h[/\S/]                 = lambda { where('last_name LIKE ?', "#{q}%") }
+      h[/(\S+),\s*(\S*)/]     = lambda { where("#{table_name}.last_name LIKE ? AND #{table_name}.first_name LIKE ?", $1, "#{$2}%") }
+      h[/(\S+)\s+(\S*)/]      = lambda { where("#{table_name}.first_name LIKE ? AND #{table_name}.last_name LIKE ?", $1, "#{$2}%") }
+      h[/\S/]                 = lambda { where("#{table_name}.last_name LIKE ?", "#{q}%") }
       h[//]                   = lambda { where('1=2') }
 
       h.each do |regex, where_clause|
