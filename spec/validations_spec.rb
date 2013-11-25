@@ -12,20 +12,16 @@ describe 'validations' do
     subject { student }
 
     it { should validate_uniqueness_of :name_n }
-    it { should validate_format_of(:name_n).not_with('gee2').
-           with_message(/must be in format: name.#/) }
-    it { should validate_format_of(:name_n).with('gee.2').
-           with_message(/must be in format: name.#/) }
+    it { should_not allow_value('gee2').for(:name_n) }
+    it { should allow_value('gee.2').for(:name_n) }
   end
 
   describe 'the emplid field' do
     subject { applicant }
 
     it { should validate_uniqueness_of :emplid }
-    it { should validate_format_of(:emplid).not_with('54321').
-           with_message(/must be 8 or 9 digits/) }
-    it { should validate_format_of(:emplid).with('987654321').
-           with_message(/must be 8 or 9 digits/) }
+    it { should_not allow_value('54321').for(:emplid) }
+    it { should allow_value('987654321').for(:emplid) }
   end
 
   describe 'the id field' do
